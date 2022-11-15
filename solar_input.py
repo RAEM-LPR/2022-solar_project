@@ -50,25 +50,25 @@ def parse_star_parameters(line, star):
 
     Planet 2 orange 3.302E23 57.909E9 0 0 47.87E3
     """
-    
+
     if line.split()[0] != 'Star':
         TypeError()
 
     splitted = line.split()
 
-    star.m = splitted[3]
+    star.m = int(splitted[3])
 
-    star.x = splitted[4]
+    star.x = int(splitted[4])
 
-    star.y = splitted[5]
+    star.y = int(splitted[5])
 
-    star.Vx = splitted[6]
+    star.Vx = int(splitted[6])
 
-    star.Vy = splitted[7]
+    star.Vy = int(splitted[7])
 
-    r = splitted[1]
+    star.r = int(splitted[1])
 
-    color = splitted[2]
+    star.color = splitted[2]
 
 def parse_planet_parameters(line, planet):
     """Считывает данные о планете из строки.
@@ -90,19 +90,19 @@ def parse_planet_parameters(line, planet):
 
     splitted = line.split()
 
-    planet.m = splitted[3]
+    planet.m = int(splitted[3])
 
-    planet.x = splitted[4]
+    planet.x = int(splitted[4])
 
-    planet.y = splitted[5]
+    planet.y = int(splitted[5])
 
-    planet.Vx = splitted[6]
+    planet.Vx = int(splitted[6])
 
-    planet.Vy = splitted[7]
+    planet.Vy = int(splitted[7])
 
-    r = splitted[1]
+    planet.r = int(splitted[1])
 
-    color = splitted[2]
+    planet.color = splitted[2]
 
 
 def write_space_objects_data_to_file(output_filename, space_objects):
