@@ -52,6 +52,7 @@ def execution():
     global displayed_time
     global clock
     global space
+    global gscreen
 
     recalculate_space_objects_positions(space_objects, tstep)
     space=[]
@@ -61,7 +62,9 @@ def execution():
     #displayed_time.set("%.1f" % physical_time + " seconds gone")
 
     if perform_execution:
-        pass#space.after(101 - int(time_speed.get()), execution)
+        for body in space_objects:
+            pygame.draw.circle(gscreen, body.color, (body.image[0], body.image[1]), body.image[2]) #star.image = [x,y,r,star.color]
+             #space.after(101 - int(time_speed.get()), execution) pygame.draw.circle(screen, self.color, (self.x, self.y), self.r)
 
 
 def start_execution():
@@ -100,8 +103,8 @@ def open_file_dialog():
     perform_execution = False
     #for obj in space_objects:
     #    space.delete(obj.image)  # удаление старых изображений планет
-    in_filename = filedialog.askopenfilename(filetypes=(("Text file", ".txt"),))
-    space_objects = read_space_objects_data_from_file(in_filename)
+    #in_filename = filedialog.askopenfilename(filetypes=(("Text file", ".txt"),))
+    space_objects = read_space_objects_data_from_file("one_satellite.txt") # to do
     max_distance = max([max(abs(obj.x), abs(obj.y)) for obj in space_objects])
     calculate_scale_factor(max_distance)
 
@@ -133,7 +136,9 @@ def mainloop():
     global gscreen
 
     while pgRunning:
-        tstep = clock.tick(FPS)
+        tstep = clock.tick(FPS)*100
+        
+        gscreen.fill((0, 0, 0))
 
         execution()
 
@@ -144,8 +149,6 @@ def mainloop():
                 pgRunning = False
                 quit()
 
-        gscreen.fill((0, 0, 0))
- 
         pygame_widgets.update(events)
         start_button.listen(events)
 
