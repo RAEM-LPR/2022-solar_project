@@ -1,7 +1,7 @@
 # coding: utf-8
 # license: GPLv3
 
-from solar_objects import Star, Planet
+from solar_objects import Planet, Star
 
 
 def read_space_objects_data_from_file(input_filename):
@@ -23,7 +23,7 @@ def read_space_objects_data_from_file(input_filename):
                 star = Star()
                 parse_star_parameters(line, star)
                 objects.append(star)
-            if object_type == "planet":
+            elif object_type == "planet":
                 planet = Planet()
                 parse_planet_parameters(line, planet)
                 objects.append(planet)
@@ -50,7 +50,7 @@ def parse_star_parameters(line, star):
 
     Planet 2 orange 3.302E23 57.909E9 0 0 47.87E3
     """
-
+    
     if line.split()[0] != 'Star':
         TypeError()
 
@@ -119,14 +119,16 @@ def write_space_objects_data_to_file(output_filename, space_objects):
     """
     with open(output_filename, 'w') as out_file:
         for obj in space_objects:
-            fstr = f"planet {obj.r} {obj.color} {obj.m} {obj.x} {obj.y} {obj.Vx} {obj.Vy}"
+            fstr = f"planet {obj.r} {obj.color} {obj.m} \
+                {obj.x} {obj.y} {obj.Vx} {obj.Vy}"
             print(fstr)
 
 
 def wrire_stats_to_file(stats_filename, space_objects):
     with open(stats_filename, 'a') as stats_file:
         for obj in space_objects:
-            fstr = f"planet {obj.r} {obj.color} {obj.m} {obj.x} {obj.y} {obj.Vx} {obj.Vy}"
+            fstr = f"planet {obj.r} {obj.color} {obj.m} \
+                {obj.x} {obj.y} {obj.Vx} {obj.Vy}"
             print(fstr)
 
 
