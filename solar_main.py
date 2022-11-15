@@ -36,7 +36,11 @@ if_button = None
 clock = None
 tstep=0
 
+space = []
+
 FPS = 30
+
+gscreen  = None
 
 def execution():
     """Функция исполнения -- выполняется циклически, вызывая обработку всех небесных тел,
@@ -47,8 +51,10 @@ def execution():
     global physical_time
     global displayed_time
     global clock
+    global space
 
     recalculate_space_objects_positions(space_objects, tstep)
+    space=[]
     for body in space_objects:
         update_object_position(space, body)
     physical_time += tstep
@@ -89,6 +95,7 @@ def open_file_dialog():
     Считанные объекты сохраняются в глобальный список space_objects
     """
     global space_objects
+    global space
     global perform_execution
     perform_execution = False
     #for obj in space_objects:
@@ -97,6 +104,8 @@ def open_file_dialog():
     space_objects = read_space_objects_data_from_file(in_filename)
     max_distance = max([max(abs(obj.x), abs(obj.y)) for obj in space_objects])
     calculate_scale_factor(max_distance)
+
+    space = []
 
     for obj in space_objects:
         if obj.type == 'star':
@@ -115,15 +124,19 @@ def save_file_dialog():
     out_filename = filedialog.asksaveasfilename(filetypes=(("Text file", ".txt"),))
     write_space_objects_data_to_file(out_filename, space_objects)
 
-def mainloop(scrn):
+def mainloop():
 
     global pgRunning
     global tstep 
     global start_button
     global perform_execution
+    global gscreen
 
     while pgRunning:
         tstep = clock.tick(FPS)
+
+        execution()
+
         events = pygame.event.get()
         for event in events:
             if event.type == pygame.QUIT:
@@ -131,14 +144,14 @@ def mainloop(scrn):
                 pgRunning = False
                 quit()
 
-        scrn.fill((0, 0, 0))
+        gscreen.fill((0, 0, 0))
  
         pygame_widgets.update(events)
         start_button.listen(events)
 
         if perform_execution:
             start_button = Button(
-            scrn, 70,window_height -50,70, 40, text='Pause',
+            gscreen, 70,window_height -50,70, 40, text='Pause',
             fontSize=24, margin=20,
             inactiveColour=(255, 255, 255),
             pressedColour=(180, 180, 180), radius=7,
@@ -147,7 +160,7 @@ def mainloop(scrn):
         else:
              
             start_button = Button(
-            scrn, 70,window_height -50,70, 40, text='Start',
+            gscreen, 70,window_height -50,70, 40, text='Start',
             fontSize=24, margin=20,
             inactiveColour=(255, 255, 255),
             pressedColour=(180, 180, 180), radius=7,
@@ -176,29 +189,31 @@ def main():
 
     global start_button
 
+    global gscreen
+
     print('Modelling started!')
     physical_time = 0
 
     pygame.init()
-    screen = pygame.display.set_mode((window_width, window_height))
+    gscreen = pygame.display.set_mode((window_width, window_height))
     clock = pygame.time.Clock()
 
     start_button = Button(
-        screen, 70,window_height -50,70, 40, text='Start',
+        gscreen, 70,window_height -50,70, 40, text='Start',
         fontSize=24, margin=20,
         inactiveColour=(255, 255, 255),
         pressedColour=(180, 180, 180), radius=7,
         onClick=start_execution
     )  
     if_button = Button(
-        screen, 270,window_height -50,110, 40, text="Open file...",
+        gscreen, 270,window_height -50,110, 40, text="Open file...",
         fontSize=24, margin=20,
         inactiveColour=(255, 255, 255),
         pressedColour=(180, 180, 180), radius=7,
         onClick=open_file_dialog
     )  
     of_button = Button(
-        screen, 400,window_height -50,140, 40, text="Save to file...",
+        gscreen, 400,window_height -50,140, 40, text="Save to file...",
         fontSize=24, margin=20,
         inactiveColour=(255, 255, 255),
         pressedColour=(180, 180, 180), radius=7,
@@ -236,7 +251,7 @@ def main():
     time_label = tkinter.Label(frame, textvariable=displayed_time, width=30)
     time_label.pack(side=tkinter.RIGHT)
     """
-    mainloop(screen)
+    mainloop()#screen)
 
     print('Modelling finished!')
 
