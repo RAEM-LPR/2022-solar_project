@@ -100,22 +100,27 @@ def update_system_name(space, system_name):
     ... #space.create_text(30, 80, tag="header", text=system_name, font=header_font)
 
 
-def update_object_position(space, body):
+def update_object_position(body):
     """Перемещает отображаемый объект на холсте.
 
     Параметры:
 
-    **space** — холст для рисования.
+    ///**space** — холст для рисования.
     **body** — тело, которое нужно переместить.
     """
     x = scale_x(body.x)
     y = scale_y(body.y)
     r = body.R
+
+
     if x + r < 0 or x - r > window_width or y + r < 0 or y - r > window_height:
-        space.append([window_width+r,window_height+r,r,body.color]) 
+        #space.append([window_width+r,window_height+r,r,body.color])
+        return [window_width+r,window_height+r,r,body.color]
     else:
-        space.append(body.image) #[x,y,r,planet.color]
-    #print(x,y)
+        #space.append(body.image) #[x,y,r,planet.color]
+        return [x,y,r,body.color]#body.image
+    #    print(x,y)
+
     """
     if x + r < 0 or x - r > window_width or y + r < 0 or y - r > window_height:
         space.coords(body.image, window_width + r, window_height + r,

@@ -54,17 +54,23 @@ def execution():
     global clock
     global space
     global gscreen
+    global space_objects
 
     if perform_execution:
         recalculate_space_objects_positions(space_objects, time_mult*tstep)
+        physical_time += tstep
         space=[]
         for body in space_objects:
-            update_object_position(space, body)
-        physical_time += tstep
+            drawbuf = update_object_position(body)
+            pygame.draw.circle(gscreen, drawbuf[3], (drawbuf[0], drawbuf[1]), drawbuf[2])
+            #space.append()
+        
         #displayed_time.set("%.1f" % physical_time + " seconds gone")
-        for body_image in space:
-            pygame.draw.circle(gscreen, body_image[3], (body_image[0], body_image[1]), body_image[2]) #star.image = [x,y,r,star.color]
-             #space.after(101 - int(time_speed.get()), execution) pygame.draw.circle(screen, self.color, (self.x, self.y), self.r)
+        #for body_image in space:
+            #print(body_image[0], body_image[1])
+            #pygame.draw.circle(gscreen, body_image[3], (body_image[0], body_image[1]), body_image[2]) #star.image = [x,y,r,star.color]
+            
+            #space.after(101 - int(time_speed.get()), execution) pygame.draw.circle(screen, self.color, (self.x, self.y), self.r)
 
 
 def start_execution():
