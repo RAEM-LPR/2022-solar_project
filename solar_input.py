@@ -90,20 +90,37 @@ def write_space_objects_data_to_file(output_filename, space_objects):
     **output_filename** — имя входного файла
     **space_objects** — список объектов планет и звёзд
     """
-    with open(output_filename, 'w') as out_file:
+    with open(output_filename, 'w') as output_file:
         for obj in space_objects:
             fstr = f"planet {obj.r} {obj.color} {obj.m} \
                 {obj.x} {obj.y} {obj.Vx} {obj.Vy}"
-            print(fstr)
+            output_file.write(fstr)
+        output_file.close()
 
+stats_array = []
 
-def wrire_stats_to_file(stats_filename, space_objects):
+def write_stat_step(space_objects):
+    global stats_array
+    for obj in space_objects:
+            fstr = f"planet {obj.r} {obj.color} {obj.m} \
+                {obj.x} {obj.y} {obj.Vx} {obj.Vy}"
+            stats_array.append(fstr)
+    stats_array.append("======")
+
+def write_stats_to_file(stats_filename):
+    global stats_array
+    with open(stats_filename, 'a') as stats_file:
+        for fstr in stats_array:
+            stats_file.write(fstr)
+        stats_file.close()
+
+def write_stats_to_file(stats_filename, space_objects):
     with open(stats_filename, 'a') as stats_file:
         for obj in space_objects:
             fstr = f"planet {obj.r} {obj.color} {obj.m} \
                 {obj.x} {obj.y} {obj.Vx} {obj.Vy}"
-            print(fstr)
-
+            stats_file.write(fstr)
+        stats_file.close()
 
 if __name__ == "__main__":
     print("This module is not for direct call!")
