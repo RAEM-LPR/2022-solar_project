@@ -115,6 +115,7 @@ def update_object_position(space, body):
         space.append([window_width+r,window_height+r,r,body.color]) 
     else:
         space.append(body.image) #[x,y,r,planet.color]
+    #print(x,y)
     """
     if x + r < 0 or x - r > window_width or y + r < 0 or y - r > window_height:
         space.coords(body.image, window_width + r, window_height + r,

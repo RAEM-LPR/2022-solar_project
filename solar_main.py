@@ -1,11 +1,11 @@
 # coding: utf-8
 # license: GPLv3
 
-import tkinter
+#import tkinter
 import pygame
 import pygame_widgets
 from pygame_widgets.button import Button
-from tkinter import filedialog
+#from tkinter import filedialog
 from solar_vis import *
 from solar_model import *
 from solar_input import *
@@ -34,7 +34,8 @@ start_button = None
 of_button = None
 if_button = None
 clock = None
-tstep=0
+tstep = 0
+time_mult = 1000.0
 
 space = []
 
@@ -54,16 +55,15 @@ def execution():
     global space
     global gscreen
 
-    recalculate_space_objects_positions(space_objects, tstep)
-    space=[]
-    for body in space_objects:
-        update_object_position(space, body)
-    physical_time += tstep
-    #displayed_time.set("%.1f" % physical_time + " seconds gone")
-
     if perform_execution:
+        recalculate_space_objects_positions(space_objects, time_mult*tstep)
+        space=[]
         for body in space_objects:
-            pygame.draw.circle(gscreen, body.color, (body.image[0], body.image[1]), body.image[2]) #star.image = [x,y,r,star.color]
+            update_object_position(space, body)
+        physical_time += tstep
+        #displayed_time.set("%.1f" % physical_time + " seconds gone")
+        for body_image in space:
+            pygame.draw.circle(gscreen, body_image[3], (body_image[0], body_image[1]), body_image[2]) #star.image = [x,y,r,star.color]
              #space.after(101 - int(time_speed.get()), execution) pygame.draw.circle(screen, self.color, (self.x, self.y), self.r)
 
 
@@ -124,8 +124,9 @@ def save_file_dialog():
     функцию считывания параметров системы небесных тел из данного файла.
     Считанные объекты сохраняются в глобальный список space_objects
     """
-    out_filename = filedialog.asksaveasfilename(filetypes=(("Text file", ".txt"),))
-    write_space_objects_data_to_file(out_filename, space_objects)
+    #out_filename = filedialog.asksaveasfilename(filetypes=(("Text file", ".txt"),))
+    #write_space_objects_data_to_file(out_filename, space_objects)
+    wrire_stats_to_file("modelstat.txt", space_objects)
 
 def mainloop():
 
@@ -136,7 +137,7 @@ def mainloop():
     global gscreen
 
     while pgRunning:
-        tstep = clock.tick(FPS)*100
+        tstep = clock.tick(FPS)
         
         gscreen.fill((0, 0, 0))
 
