@@ -47,21 +47,13 @@ def parse_star_parameters(line, star):
     
     if line.split()[0] != 'Star':
         TypeError()
-
     splitted = line.split()
-
     star.m = float(splitted[3])
-
     star.x = float(splitted[4])
-
     star.y = float(splitted[5])
-
     star.Vx = float(splitted[6])
-
     star.Vy = float(splitted[7])
-
     star.r = float(splitted[1])
-
     star.color = splitted[2]
 
 
@@ -79,21 +71,13 @@ def parse_planet_parameters(line, planet):
     """
     if line.split()[0] != 'Planet':
         TypeError()
-
     splitted = line.split()
-
     planet.m = float(splitted[3])
-
     planet.x = float(splitted[4])
-
     planet.y = float(splitted[5])
-
     planet.Vx = float(splitted[6])
-
     planet.Vy = float(splitted[7])
-
     planet.r = float(splitted[1])
-
     planet.color = splitted[2]
 
 
