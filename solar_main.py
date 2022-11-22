@@ -1,11 +1,9 @@
 # coding: utf-8
 # license: GPLv3
 
-#import tkinter
 import pygame
 import pygame_widgets
 from pygame_widgets.button import Button
-#from tkinter import filedialog
 from solar_vis import *
 from solar_model import *
 from solar_input import *
@@ -58,21 +56,13 @@ def execution():
 
     if perform_execution:
         recalculate_space_objects_positions(space_objects, time_mult*tstep)
+        write_stat_step(space_objects)
         physical_time += tstep
         space=[]
         for body in space_objects:
-            space.append(update_object_position(body))
-
+            update_object_position(space,body)
         for body in space:
             pygame.draw.circle(gscreen, body[3], (body[0], body[1]), body[2])
-            #
-        
-        #displayed_time.set("%.1f" % physical_time + " seconds gone")
-        #for body_image in space:
-            #print(body_image[0], body_image[1])
-            #pygame.draw.circle(gscreen, body_image[3], (body_image[0], body_image[1]), body_image[2]) #star.image = [x,y,r,star.color]
-            
-            #space.after(101 - int(time_speed.get()), execution) pygame.draw.circle(screen, self.color, (self.x, self.y), self.r)
 
 
 def start_execution():
@@ -82,8 +72,6 @@ def start_execution():
     global start_button
     global perform_execution
     perform_execution = True
-    #start_button.text = "Pause"
-    #start_button.setOnClick(stop_execution)
     execution()
     print('Started execution...')
 
@@ -95,8 +83,6 @@ def stop_execution():
     global start_button
     global perform_execution
     perform_execution = False
-    #start_button.setText("Start")
-    #start_button.setOnClick(start_execution)
     print('Paused execution.')
 
 
@@ -134,7 +120,7 @@ def save_file_dialog():
     """
     #out_filename = filedialog.asksaveasfilename(filetypes=(("Text file", ".txt"),))
     #write_space_objects_data_to_file(out_filename, space_objects)
-    wrire_stats_to_file("modelstat.txt", space_objects)
+    write_stats_to_file("modelstat.txt")
 
 def mainloop():
 
@@ -190,9 +176,6 @@ def main():
     global physical_time
     global displayed_time
     global time_step
-    #global time_speed
-    #global space
-    #global start_start_button
     global if_button
     global of_button
 
@@ -231,39 +214,8 @@ def main():
         pressedColour=(180, 180, 180), radius=7,
         onClick=save_file_dialog
     )  
-
-    """
-    root = tkinter.Tk()
-    # космическое пространство отображается на холсте типа Canvas
-    space = tkinter.Canvas(root, width=window_width, height=window_height, bg="black")
-    space.pack(side=tkinter.TOP)
-    # нижняя панель с кнопками
-    frame = tkinter.Frame(root)
-    frame.pack(side=tkinter.BOTTOM)
-
-    start_start_button = tkinter.Button(frame, text="Start", command=start_execution, width=6)
-    start_start_button.pack(side=tkinter.LEFT)
-
-    time_step = tkinter.DoubleVar()
-    time_step.set(1)
-    time_step_entry = tkinter.Entry(frame, textvariable=time_step)
-    time_step_entry.pack(side=tkinter.LEFT)
-
-    time_speed = tkinter.DoubleVar()
-    scale = tkinter.Scale(frame, variable=time_speed, orient=tkinter.HORIZONTAL)
-    scale.pack(side=tkinter.LEFT)
-
-    load_file_start_button = tkinter.Button(frame, text="Open file...", command=open_file_dialog)
-    load_file_start_button.pack(side=tkinter.LEFT)
-    save_file_start_button = tkinter.Button(frame, text="Save to file...", command=save_file_dialog)
-    save_file_start_button.pack(side=tkinter.LEFT)
-
-    displayed_time = tkinter.StringVar()
-    displayed_time.set(str(physical_time) + " seconds gone")
-    time_label = tkinter.Label(frame, textvariable=displayed_time, width=30)
-    time_label.pack(side=tkinter.RIGHT)
-    """
-    mainloop()#screen)
+  
+    mainloop()
 
     print('Modelling finished!')
 

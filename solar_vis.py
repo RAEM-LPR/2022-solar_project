@@ -54,7 +54,7 @@ def scale_y(y):
     **y** — y-координата модели.
     """
 
-    return int(y*scale_factor) + window_height//2 # FIXME: not done yet
+    return int(y*scale_factor) + window_height//2
 
 
 def create_star_image(space, star):
@@ -70,7 +70,6 @@ def create_star_image(space, star):
     y = scale_y(star.y)
     r = star.R
     star.image = [x,y,r,star.color]
-    #star.image = space.create_oval([x - r, y - r], [x + r, y + r], fill=star.color)
 
 
 def create_planet_image(space, planet):
@@ -85,7 +84,6 @@ def create_planet_image(space, planet):
     y = scale_y(planet.y)
     r = planet.R
     planet.image = [x,y,r,planet.color]
-    #planet.image = space.create_oval([x - r, y - r], [x + r, y + r], fill=planet.color)
 
 
 def update_system_name(space, system_name):
@@ -97,36 +95,24 @@ def update_system_name(space, system_name):
     **space** — холст для рисования.
     **system_name** — название системы тел.
     """
-    ... #space.create_text(30, 80, tag="header", text=system_name, font=header_font)
+    ... # space.create_text(30, 80, tag="header", text=system_name, font=header_font)
 
 
-def update_object_position(body):
+def update_object_position(space,body):
     """Перемещает отображаемый объект на холсте.
 
     Параметры:
 
-    ///**space** — холст для рисования.
     **body** — тело, которое нужно переместить.
     """
     x = scale_x(body.x)
     y = scale_y(body.y)
     r = body.R
 
-
     if x + r < 0 or x - r > window_width or y + r < 0 or y - r > window_height:
-        #space.append([window_width+r,window_height+r,r,body.color])
-        return [window_width+r,window_height+r,r,body.color]
+        space.append([window_width+r,window_height+r,r,body.color])
     else:
-        #space.append(body.image) #[x,y,r,planet.color]
-        return [x,y,r,body.color]#body.image
-    #    print(x,y)
-
-    """
-    if x + r < 0 or x - r > window_width or y + r < 0 or y - r > window_height:
-        space.coords(body.image, window_width + r, window_height + r,
-                     window_width + 2*r, window_height + 2*r)  # положить за пределы окна
-    space.coords(body.image, x - r, y - r, x + r, y + r)
-    """  
+        space.append([x,y,r,body.color])
 
 
 if __name__ == "__main__":
