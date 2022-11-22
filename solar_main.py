@@ -61,9 +61,11 @@ def execution():
         physical_time += tstep
         space=[]
         for body in space_objects:
-            drawbuf = update_object_position(body)
-            pygame.draw.circle(gscreen, drawbuf[3], (drawbuf[0], drawbuf[1]), drawbuf[2])
-            #space.append()
+            space.append(update_object_position(body))
+
+        for body in space:
+            pygame.draw.circle(gscreen, body[3], (body[0], body[1]), body[2])
+            #
         
         #displayed_time.set("%.1f" % physical_time + " seconds gone")
         #for body_image in space:
