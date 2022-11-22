@@ -8,6 +8,9 @@ from solar_vis import *
 from solar_model import *
 from solar_input import *
 
+input_data_file = "solar_system.txt"
+"""Файл со входными данными"""
+
 perform_execution = False
 """Флаг цикличности выполнения расчёта"""
 
@@ -98,7 +101,7 @@ def open_file_dialog():
     #for obj in space_objects:
     #    space.delete(obj.image)  # удаление старых изображений планет
     #in_filename = filedialog.askopenfilename(filetypes=(("Text file", ".txt"),))
-    space_objects = read_space_objects_data_from_file("one_satellite.txt") # to do
+    space_objects = read_space_objects_data_from_file(input_data_file)
     max_distance = max([max(abs(obj.x), abs(obj.y)) for obj in space_objects])
     calculate_scale_factor(max_distance)
 

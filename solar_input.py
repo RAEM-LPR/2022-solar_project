@@ -110,7 +110,7 @@ def write_stats_to_file(stats_filename):
     global stats_array
     with open(stats_filename, 'a') as stats_file:
         for fstr in stats_array:
-            stats_file.write(fstr+"\r\n")
+            stats_file.write(fstr)
         stats_file.close()
 
 if __name__ == "__main__":
